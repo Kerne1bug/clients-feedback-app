@@ -4,30 +4,19 @@ import FORMICON from './assets/Group.svg';
 import BUTTONICON from './assets/send.svg';
 
 function FeedBackForm() {
-	const [name, setName] = useState('');
-	const [phone, setPhone] = useState('');
-	const [email, setEmail] = useState('');
-	const [message, setMessage] = useState('');
-	const [isChecked, setIsChecked] = useState(false);
+	const [formData, setFormData] = useState({
+		name: '',
+		phone: '',
+		email: '',
+		message: '',
+		isChecked: false,
+	});
 
-	const handleNameChange = (e) => {
-		setName(e.target.value);
-	};
-
-	const handlePhoneChange = (e) => {
-		setPhone(e.target.value);
-	};
-
-	const handleEmailChange = (e) => {
-		setEmail(e.target.value);
-	};
-
-	const handleMessageChange = (e) => {
-		setMessage(e.target.value);
-	};
-
-	const handleCheckboxChange = (e) => {
-		setIsChecked(e.target.checked);
+	const handleInputChange = (field, value) => {
+		setFormData((prevData) => ({
+			...prevData,
+			[field]: value,
+		}));
 	};
 
 	const handleSubmit = (e) => {
@@ -47,8 +36,8 @@ function FeedBackForm() {
 					type="text"
 					placeholder="Ваше имя*"
 					id="name"
-					value={name}
-					onChange={handleNameChange}
+					value={formData.name}
+					onChange={(e) => handleInputChange('name', e.target.value)}
 					required
 					className={styles.inputField}
 				/>
@@ -56,24 +45,24 @@ function FeedBackForm() {
 					type="tel"
 					placeholder="Телефон"
 					id="phone"
-					value={phone}
-					onChange={handlePhoneChange}
+					value={formData.phone}
+					onChange={(e) => handleInputChange('phone', e.target.value)}
 					className={styles.inputField}
 				/>
 				<input
 					type="email"
 					placeholder="Электронная почта*"
 					id="email"
-					value={email}
-					onChange={handleEmailChange}
+					value={formData.email}
+					onChange={(e) => handleInputChange('email', e.target.value)}
 					required
 					className={styles.inputField}
 				/>
 				<textarea
 					placeholder="Текст сообщения*"
 					id="message"
-					value={message}
-					onChange={handleMessageChange}
+					value={formData.message}
+					onChange={(e) => handleInputChange('message', e.target.value)}
 					rows="4"
 					required
 					className={`${styles.inputField} ${styles.inputFieldText}`}
@@ -82,8 +71,8 @@ function FeedBackForm() {
 				<label className={styles.checkboxLabel}>
 					<input
 						type="checkbox"
-						checked={isChecked}
-						onChange={handleCheckboxChange}
+						checked={formData.isChecked}
+						onChange={() => handleInputChange('isChecked', !formData.isChecked)}
 						required
 						className={styles.checkboxInput}
 					/>
@@ -95,12 +84,12 @@ function FeedBackForm() {
 					</span>
 					по обработке моих персональных данных
 				</label>
-				<button type="submit" className={styles.sendButton}>
-					<img src={BUTTONICON} alt="Отправить" className={styles.sendIcon} />
-					<p className={styles.sendText}>
-						Отправить cообщение
-					</p>
-				</button>
+				<div>
+					<button type="submit" className={styles.sendButton}>
+						<img src={BUTTONICON} alt="Отправить" className={styles.sendIcon} />
+						<p className={styles.sendText}>Отправить cообщение</p>
+					</button>
+				</div>
 			</form>
 		</div>
 	);
