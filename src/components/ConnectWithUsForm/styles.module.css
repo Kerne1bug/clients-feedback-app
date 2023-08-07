@@ -1,0 +1,162 @@
+.header {
+    background: var(--blue-2-light, #D6F4FA);
+    min-height: 612px;
+    width: 652px;
+}
+
+.mainForm {
+    display: flex;
+    /* padding-right: 192px; */
+    padding-top: 65px;
+    padding-bottom: 7px;
+    padding-right: 0;
+    column-gap: 15px;
+    margin-left: 150px;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+}
+
+.formIcon {
+    width: 36.727px;
+    height: 33.378px;
+    flex-shrink: 0;
+}
+
+.formTitle {
+    color: var(--dark, #090F24);
+    text-align: center;
+    margin: 0;
+
+    /* H1 - Desktop */
+    font-family: Rubik;
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 139.023%;
+    /* 38.926px */
+
+}
+
+.formSubtitle {
+    color: #1B5F6B;
+    font-family: Noto Sans;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24.804px;
+    margin: 0 0 14px 76px;
+    letter-spacing: -0.5px;
+}
+
+
+.inputField {
+    color: var(--gray-3, #B7B8C5);
+    font-family: Noto Sans;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    width: 526px;
+    height: 42px;
+    flex-shrink: 0;
+    border-radius: 40px;
+    border: 1px solid var(--blue, #74CCD8);
+    background: var(--white, #FFF);
+    margin-bottom: 12px;
+    padding-left: 20px;
+    box-sizing: border-box;
+    margin-left: 44px;
+}
+
+.inputFieldText {
+    resize: none;
+    height: 130px;
+    padding-top: 11.5px;
+    border-radius: 20px;
+    margin: 0 0 0 44px;
+}
+
+
+
+/* .formFieldText {
+    width: 526px;
+    height: 130px;
+    flex-shrink: 0;
+    border-radius: 20px;
+    border: 1px solid var(--blue, #74CCD8);
+    background: var(--white, #FFF);
+} */
+
+.formNote {
+    color: #427781;
+    font-family: Noto Sans;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 155.023%;
+    /* 18.603px */
+    margin: 6px 0 6px 249px;
+
+}
+
+.checkboxLabel {
+    color: var(--dark, #090F24);
+    font-family: Noto Sans;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 155.023%;
+    /* 21.703px */
+    margin: 0 0 14px 0;
+    display: inline-block;
+    letter-spacing: -0.5px;
+}
+
+.checkboxInput {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    margin: 0 9px 0 65px;
+
+}
+
+.checkboxText {
+    color: #090F24;
+    font-family: Noto Sans;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 155.023%;
+}
+
+.sendButton {
+    display: inline-flex;
+    width: 249px;
+    height: 46px;
+    padding: 13px 30px;
+    margin: 0 0 62px 182.5px;
+    gap: 10px;
+    border-radius: 30px;
+    background: var(--blue, #74CCD8);
+    /* Blue Swadow */
+    box-shadow: 0px 2px 4px 0px rgba(51, 196, 223, 0.20);
+    color: white;
+}
+
+.sendIcon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    color: var(--white, #FFF);
+}
+
+.sendText {
+    font-family: Noto Sans;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+}
