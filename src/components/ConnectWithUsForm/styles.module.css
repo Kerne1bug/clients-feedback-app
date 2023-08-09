@@ -1,28 +1,31 @@
 .header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 62px 0;
     background: var(--blue-2-light, #D6F4FA);
-    min-height: 612px;
+    /* min-height: 612px; */
     width: 652px;
+    z-index: 2;
 }
 
 .mainForm {
     display: flex;
-    /* padding-right: 192px; */
-    padding-top: 65px;
-    padding-bottom: 7px;
-    padding-right: 0;
     column-gap: 15px;
-    margin-left: 150px;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
 
 .form {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    margin-top: 14px;
 }
 
 .formIcon {
     width: 36.727px;
-    height: 33.378px;
-    flex-shrink: 0;
 }
 
 .formTitle {
@@ -47,7 +50,7 @@
     font-style: normal;
     font-weight: 400;
     line-height: 24.804px;
-    margin: 0 0 14px 76px;
+    margin: 0;
     letter-spacing: -0.5px;
 }
 
@@ -65,10 +68,10 @@
     border-radius: 40px;
     border: 1px solid var(--blue, #74CCD8);
     background: var(--white, #FFF);
-    margin-bottom: 12px;
     padding-left: 20px;
     box-sizing: border-box;
-    margin-left: 44px;
+    color: black;
+    margin-bottom: 12px;
 }
 
 .inputFieldText {
@@ -76,7 +79,7 @@
     height: 130px;
     padding-top: 11.5px;
     border-radius: 20px;
-    margin: 0 0 0 44px;
+    margin-bottom: 6px;
 }
 
 
@@ -98,7 +101,7 @@
     font-weight: 400;
     line-height: 155.023%;
     /* 18.603px */
-    margin: 6px 0 6px 249px;
+    margin: 0;
 
 }
 
@@ -110,7 +113,7 @@
     font-weight: 400;
     line-height: 155.023%;
     /* 21.703px */
-    margin: 0 0 14px 0;
+    margin: 0;
     display: inline-block;
     letter-spacing: -0.5px;
 }
@@ -119,7 +122,7 @@
     width: 14px;
     height: 14px;
     flex-shrink: 0;
-    margin: 0 9px 0 65px;
+    margin: 0 9px 0 0;
 
 }
 
@@ -133,11 +136,11 @@
 }
 
 .sendButton {
-    display: inline-flex;
+    display: flex;
     width: 249px;
     height: 46px;
     padding: 13px 30px;
-    margin: 0 0 62px 182.5px;
+    margin: 14px 0 0 0;
     gap: 10px;
     border-radius: 30px;
     background: var(--blue, #74CCD8);
@@ -149,8 +152,6 @@
 
 .sendIcon {
     width: 20px;
-    height: 20px;
-    flex-shrink: 0;
     color: var(--white, #FFF);
 }
 
