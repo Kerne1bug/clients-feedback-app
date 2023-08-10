@@ -21,7 +21,6 @@ function FeedBackForm() {
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		// Обработка отправки формы
 	};
 
 	return (
