@@ -1,5 +1,4 @@
 import styles from './styles.module.css';
-// import BCKGRND from './assets/bckground.png';
 import FeedBackForm from '../ConnectWithUsForm';
 import Message from './assets/message.svg';
 import Bckgrnd from './assets/bckground.png';
