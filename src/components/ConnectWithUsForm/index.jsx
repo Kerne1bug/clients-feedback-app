@@ -1,7 +1,8 @@
+//* eslint-disable*/
 import { useDispatch, useSelector } from 'react-redux';
 import { setFieldValidation, setIsSubmitting, setFieldValue } from '../../store/slices/formSlice';
-import validation from '../../store/slices/validation';
 
+import validation from '../../store/slices/validation';
 import styles from './styles.module.css';
 import FORMICON from './assets/Group.svg';
 import BUTTONICON from './assets/send.svg';
@@ -10,16 +11,23 @@ function FeedBackForm() {
 	const dispatch = useDispatch();
 	const formState = useSelector((state) => state.form);
 
-	const handleBlur = async (fieldName) => {
+	const validateField = async (fieldName, value) => { // вынести в отдельный ютилс
 		try {
-			await validation.fields[fieldName].validate(formState.fields[fieldName].value);
-			dispatch(setFieldValidation({ fieldName, isValid: true }));
+			await validation.fields[fieldName].validate(value);
+			return true;
 		} catch (error) {
-			dispatch(setFieldValidation({ fieldName, isValid: false }));
+			return false;
 		}
 	};
 
-	const handleSubmit = (e) => {
+	const handleBlur = async (fieldName) => {
+		const field = formState.fields[fieldName];
+		console.log('хуйня1', field, 'jlbyldfnhb', fieldName);
+		const isValid = await validateField(fieldName, field.value);
+		dispatch(setFieldValidation({ fieldName, isValid }));
+	};
+
+	const handleSubmit = (e) => { // исправить
 		e.preventDefault();
 
 		validation.validate(formState.fields, { abortEarly: false })
@@ -35,7 +43,12 @@ function FeedBackForm() {
 		dispatch(setFieldValue({ fieldName, value }));
 	};
 
-	return (
+	const handleFocus = async (fieldName) => {
+		dispatch(setFieldValidation({ fieldName, isValid: true }));
+	};
+
+	return ( // отлдельный компонент форминпут и сообщение ошибки для сокращения кода
+		// + не попы а фиксированную область увеличить расстояние пежду окнами ввода
 		<div className={styles.header}>
 			<div className={styles.mainForm}>
 				<img src={FORMICON} alt="Сына тупина" className={styles.formIcon} />
@@ -50,6 +63,7 @@ function FeedBackForm() {
 					name="name"
 					onChange={(e) => handleChange('name', e.target.value)}
 					onBlur={() => handleBlur('name')}
+					onFocus={() => handleFocus('name')}
 					value={formState.fields.name.value}
 					className={styles.inputField}
 				/>
@@ -64,6 +78,7 @@ function FeedBackForm() {
 					name="phone"
 					onChange={(e) => handleChange('phone', e.target.value)}
 					onBlur={() => handleBlur('phone')}
+					onFocus={() => handleFocus('phone')}
 					value={formState.fields.phone.value}
 					className={styles.inputField}
 				/>
@@ -78,6 +93,7 @@ function FeedBackForm() {
 					name="email"
 					onChange={(e) => handleChange('email', e.target.value)}
 					onBlur={() => handleBlur('email')}
+					onFocus={() => handleFocus('email')}
 					value={formState.fields.email.value}
 					className={styles.inputField}
 				/>
@@ -92,6 +108,7 @@ function FeedBackForm() {
 					rows="4"
 					onChange={(e) => handleChange('message', e.target.value)}
 					onBlur={() => handleBlur('message')}
+					onFocus={() => handleFocus('message')}
 					value={formState.fields.message.value}
 					className={`${styles.inputField} ${styles.inputFieldText}`}
 				/>
@@ -107,6 +124,7 @@ function FeedBackForm() {
 						name="agreement"
 						onChange={(e) => handleChange('agreement', e.target.checked)}
 						onBlur={() => handleBlur('agreement')}
+						onFocus={() => handleFocus('agreement')}
 						value={formState.fields.agreement.value}
 						checked={formState.fields.agreement.value}
 					/>
@@ -117,7 +135,7 @@ function FeedBackForm() {
 					по обработке моих персональных данных
 				</label>
 				{formState.fields.agreement.isValid || (
-					<div className={styles.error}>Обязательное поле</div>
+					<div className={styles.error}>Вы должны согласиться с правилами</div>
 				)}
 
 				<div>
