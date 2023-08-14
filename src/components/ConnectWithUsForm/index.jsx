@@ -1,8 +1,11 @@
 //* eslint-disable*/
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setFieldValidation, setIsSubmitting, setFieldValue } from '../../store/slices/formSlice';
+import { validateField, validate } from './utils';
+import { FIELDS } from './constants';
 
-import validation from '../../store/slices/validation';
+// import validation from '../../store/slices/validation';
 import styles from './styles.module.css';
 import FORMICON from './assets/Group.svg';
 import BUTTONICON from './assets/send.svg';
@@ -10,41 +13,33 @@ import BUTTONICON from './assets/send.svg';
 function FeedBackForm() {
 	const dispatch = useDispatch();
 	const formState = useSelector((state) => state.form);
-
-	const validateField = async (fieldName, value) => { // вынести в отдельный ютилс
-		try {
-			await validation.fields[fieldName].validate(value);
-			return true;
-		} catch (error) {
-			return false;
-		}
+	const [errors, setErrors] = useState();
+	const handleBlur = async (evt) => {
+		const { name, value } = evt.target;
+		const isValid = await validateField(name, value);
+		dispatch(setFieldValidation({ fieldName: name, isValid }));
+		validate(formState, setErrors);
 	};
 
-	const handleBlur = async (fieldName) => {
-		const field = formState.fields[fieldName];
-		console.log('хуйня1', field, 'jlbyldfnhb', fieldName);
-		const isValid = await validateField(fieldName, field.value);
-		dispatch(setFieldValidation({ fieldName, isValid }));
+	const handleChange = async (evt) => {
+		const { name, value } = evt.target;
+		dispatch(setFieldValue({ fieldName: name, value }));
+		await handleBlur(evt);
 	};
 
-	const handleSubmit = (e) => { // исправить
+	const onChange = async (evt) => {
+		const { name, checked } = evt.target;
+		dispatch(setFieldValue({ fieldName: name, value: checked }));
+		validate(formState, setErrors);
+		console.log('validateFields-111', formState.fields.agreement.value);
+	};
+	console.log('validateFields-222', formState.fields.agreement.value);
+
+	const handleSubmit = (e) => {
 		e.preventDefault();
-
-		validation.validate(formState.fields, { abortEarly: false })
-			.then(() => {
-				dispatch(setIsSubmitting(true));
-				setTimeout(() => {
-					dispatch(setIsSubmitting(false));
-				}, 1000);
-			});
-	};
-
-	const handleChange = (fieldName, value) => {
-		dispatch(setFieldValue({ fieldName, value }));
-	};
-
-	const handleFocus = async (fieldName) => {
-		dispatch(setFieldValidation({ fieldName, isValid: true }));
+		dispatch(setIsSubmitting(true));
+		validate(formState, setErrors);
+		dispatch(setIsSubmitting(true));
 	};
 
 	return ( // отлдельный компонент форминпут и сообщение ошибки для сокращения кода
@@ -59,73 +54,61 @@ function FeedBackForm() {
 				<input
 					type="text"
 					placeholder="Ваше имя*"
-					id="name"
-					name="name"
-					onChange={(e) => handleChange('name', e.target.value)}
-					onBlur={() => handleBlur('name')}
-					onFocus={() => handleFocus('name')}
+					name={FIELDS.name}
+					onChange={handleChange}
+					onBlur={handleBlur}
 					value={formState.fields.name.value}
 					className={styles.inputField}
 				/>
-				{!formState.fields.name.isValid && (
-					<div className={styles.error}>Имя должно содержать от 2 до 128 символов</div>
+				{errors?.name && (
+					<div className={styles.error}>{errors?.name}</div>
 				)}
 
 				<input
 					type="tel"
 					placeholder="Телефон"
-					id="phone"
-					name="phone"
-					onChange={(e) => handleChange('phone', e.target.value)}
-					onBlur={() => handleBlur('phone')}
-					onFocus={() => handleFocus('phone')}
+					name={FIELDS.phone}
+					onChange={handleChange}
+					onBlur={handleBlur}
 					value={formState.fields.phone.value}
 					className={styles.inputField}
 				/>
-				{!formState.fields.phone.isValid && (
-					<div className={styles.error}>Неправильный формат номера телефона</div>
+				{errors?.phone && (
+					<div className={styles.error}>{errors?.phone}</div>
 				)}
 
 				<input
 					type="email"
 					placeholder="Электронная почта*"
-					id="email"
-					name="email"
-					onChange={(e) => handleChange('email', e.target.value)}
-					onBlur={() => handleBlur('email')}
-					onFocus={() => handleFocus('email')}
+					name={FIELDS.email}
+					onChange={handleChange}
+					onBlur={handleBlur}
 					value={formState.fields.email.value}
 					className={styles.inputField}
 				/>
-				{!formState.fields.email.isValid && (
-					<div className={styles.error}>Неправильный формат электронной почты</div>
+				{errors?.email && (
+					<div className={styles.error}>{errors?.email}</div>
 				)}
 
 				<textarea
 					placeholder="Пожалуйста, введите текст сообщения*"
-					id="message"
-					name="message"
+					name={FIELDS.message}
 					rows="4"
-					onChange={(e) => handleChange('message', e.target.value)}
-					onBlur={() => handleBlur('message')}
-					onFocus={() => handleFocus('message')}
+					onChange={handleChange}
+					onBlur={handleBlur}
 					value={formState.fields.message.value}
 					className={`${styles.inputField} ${styles.inputFieldText}`}
 				/>
-				{formState.fields.message.isValid || (
-					<div className={styles.error}>Текст сообщения должен содержать от 5 до 1024 символов</div>
+				{errors?.message && (
+					<div className={styles.error}>{errors?.message}</div>
 				)}
 
 				<label className={styles.checkboxLabel}>
 					<input
 						type="checkbox"
-						required
 						className={styles.checkboxInput}
-						name="agreement"
-						onChange={(e) => handleChange('agreement', e.target.checked)}
-						onBlur={() => handleBlur('agreement')}
-						onFocus={() => handleFocus('agreement')}
-						value={formState.fields.agreement.value}
+						name={FIELDS.agreement}
+						onChange={onChange}
 						checked={formState.fields.agreement.value}
 					/>
 					Я согласен(-на) с
@@ -134,8 +117,8 @@ function FeedBackForm() {
 					{' '}
 					по обработке моих персональных данных
 				</label>
-				{formState.fields.agreement.isValid || (
-					<div className={styles.error}>Вы должны согласиться с правилами</div>
+				{errors?.agreement && (
+					<div className={styles.error}>{errors?.agreement}</div>
 				)}
 
 				<div>

@@ -24,7 +24,8 @@ const validation = yup.object().shape({
 		.required('Пожалуйста, введите текст сообщения'),
 	agreement: yup
 		.boolean()
-		.oneOf([true], 'Вы должны согласиться с правилами'),
+		.oneOf([true], 'Вы должны согласиться с правилами')
+		.required('Вы должны согласиться с правилами'),
 });
 
 export default validation;
