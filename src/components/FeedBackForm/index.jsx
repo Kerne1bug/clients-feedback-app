@@ -1,11 +1,12 @@
 //* eslint-disable*/
-import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setFieldValidation, setIsSubmitting, setFieldValue } from '../../store/slices/formSlice';
-import { validateField, validate } from './utils';
+import {
+	setFieldValidation, setIsSubmitting, setFieldValue, setFieldsValidation,
+} from '../../store/slices/formSlice';
+import { validateField } from './utils';
 import { FIELDS } from './constants';
 
-// import validation from '../../store/slices/validation';
+import validation from '../../store/slices/validation';
 import styles from './styles.module.css';
 import FORMICON from './assets/Group.svg';
 import BUTTONICON from './assets/send.svg';
@@ -13,12 +14,13 @@ import BUTTONICON from './assets/send.svg';
 function FeedBackForm() {
 	const dispatch = useDispatch();
 	const formState = useSelector((state) => state.form);
-	const [errors, setErrors] = useState();
+
 	const handleBlur = async (evt) => {
 		const { name, value } = evt.target;
 		const isValid = await validateField(name, value);
+		console.log('DEBUG validation', name, value, isValid);
+
 		dispatch(setFieldValidation({ fieldName: name, isValid }));
-		validate(formState, setErrors);
 	};
 
 	const handleChange = async (evt) => {
@@ -30,16 +32,31 @@ function FeedBackForm() {
 	const onChange = async (evt) => {
 		const { name, checked } = evt.target;
 		dispatch(setFieldValue({ fieldName: name, value: checked }));
-		validate(formState, setErrors);
-		console.log('validateFields-111', formState.fields.agreement.value);
 	};
-	console.log('validateFields-222', formState.fields.agreement.value);
 
-	const handleSubmit = (e) => {
+	const handleFocus = (evt) => {
+		const { name } = evt.target;
+		dispatch(setFieldValidation({ fieldName: name, isValid: true }));
+	};
+
+	const handleSubmit = async (e) => {
 		e.preventDefault();
-		dispatch(setIsSubmitting(true));
-		validate(formState, setErrors);
-		dispatch(setIsSubmitting(true));
+
+		validation.validate(formState.fields, { abortEarly: false })
+			.then(() => {
+				dispatch(setIsSubmitting(true));
+				setTimeout(() => {
+					dispatch(setIsSubmitting(false));
+				}, 1000);
+			})
+			.catch((errors) => {
+				const fieldErrors = {};
+
+				errors.inner.forEach((error) => {
+					fieldErrors[error.path] = error.message;
+				});
+				dispatch(setFieldsValidation({ fieldErrors }));
+			});
 	};
 
 	return ( // отлдельный компонент форминпут и сообщение ошибки для сокращения кода
@@ -50,18 +67,19 @@ function FeedBackForm() {
 				<h2 className={styles.formTitle}>Свяжитесь с нами</h2>
 			</div>
 			<p className={styles.formSubtitle}>Отправьте нам сообщение и мы ответим в ближайшее время</p>
-			<form className={styles.form} onSubmit={handleSubmit}>
+			<form className={styles.form} onSubmit={handleSubmit} noValidate>
 				<input
 					type="text"
 					placeholder="Ваше имя*"
 					name={FIELDS.name}
 					onChange={handleChange}
 					onBlur={handleBlur}
+					onFocus={handleFocus}
 					value={formState.fields.name.value}
 					className={styles.inputField}
 				/>
-				{errors?.name && (
-					<div className={styles.error}>{errors?.name}</div>
+				{!formState.fields.name.isValid && (
+					<div className={styles.error}>Имя должно содержать от 2 до 128 символов</div>
 				)}
 
 				<input
@@ -70,11 +88,12 @@ function FeedBackForm() {
 					name={FIELDS.phone}
 					onChange={handleChange}
 					onBlur={handleBlur}
+					onFocus={handleFocus}
 					value={formState.fields.phone.value}
 					className={styles.inputField}
 				/>
-				{errors?.phone && (
-					<div className={styles.error}>{errors?.phone}</div>
+				{!formState.fields.phone.isValid && (
+					<div className={styles.error}>Неправильный формат номера телефона</div>
 				)}
 
 				<input
@@ -83,11 +102,12 @@ function FeedBackForm() {
 					name={FIELDS.email}
 					onChange={handleChange}
 					onBlur={handleBlur}
+					onFocus={handleFocus}
 					value={formState.fields.email.value}
 					className={styles.inputField}
 				/>
-				{errors?.email && (
-					<div className={styles.error}>{errors?.email}</div>
+				{!formState.fields.email.isValid && (
+					<div className={styles.error}>Неправильный формат электронной почты</div>
 				)}
 
 				<textarea
@@ -96,16 +116,18 @@ function FeedBackForm() {
 					rows="4"
 					onChange={handleChange}
 					onBlur={handleBlur}
+					onFocus={handleFocus}
 					value={formState.fields.message.value}
 					className={`${styles.inputField} ${styles.inputFieldText}`}
 				/>
-				{errors?.message && (
-					<div className={styles.error}>{errors?.message}</div>
+				{formState.fields.message.isValid || (
+					<div className={styles.error}>Текст сообщения должен содержать от 5 до 1024 символов</div>
 				)}
 
 				<label className={styles.checkboxLabel}>
 					<input
 						type="checkbox"
+						required
 						className={styles.checkboxInput}
 						name={FIELDS.agreement}
 						onChange={onChange}
@@ -117,12 +139,12 @@ function FeedBackForm() {
 					{' '}
 					по обработке моих персональных данных
 				</label>
-				{errors?.agreement && (
-					<div className={styles.error}>{errors?.agreement}</div>
+				{formState.fields.agreement.isValid || (
+					<div className={styles.error}>Вы должны согласиться с правилами</div>
 				)}
 
 				<div>
-					<button type="submit" className={styles.sendButton} disabled={formState.isSubmitting}>
+					<button type="submit" className={styles.sendButton}>
 						<img src={BUTTONICON} alt="Отправить" className={styles.sendIcon} />
 						<p className={styles.sendText}>Отправить сообщение</p>
 					</button>
