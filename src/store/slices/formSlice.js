@@ -26,9 +26,7 @@ const formSlice = createSlice({
 		},
 		setFieldsValidation: (state, action) => {
 			const { fieldErrors } = action.payload;
-
 			const fieldNames = Object.keys(fieldErrors);
-
 			return fieldNames.reduce((nextState, fieldName) => ({
 				...nextState,
 				fields: {

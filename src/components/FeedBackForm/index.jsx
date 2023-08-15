@@ -10,6 +10,8 @@ import validation from '../../store/slices/validation';
 import styles from './styles.module.css';
 import FORMICON from './assets/Group.svg';
 import BUTTONICON from './assets/send.svg';
+import FormInput from './FormInput';
+import FormCheckBox from './FormCheckbox';
 
 function FeedBackForm() {
 	const dispatch = useDispatch();
@@ -18,7 +20,6 @@ function FeedBackForm() {
 	const handleBlur = async (evt) => {
 		const { name, value } = evt.target;
 		const isValid = await validateField(name, value);
-		console.log('DEBUG validation', name, value, isValid);
 
 		dispatch(setFieldValidation({ fieldName: name, isValid }));
 	};
@@ -42,7 +43,15 @@ function FeedBackForm() {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
-		validation.validate(formState.fields, { abortEarly: false })
+		const validationFields = {
+			name: formState.fields.name.value,
+			phone: formState.fields.phone.value,
+			email: formState.fields.email.value,
+			message: formState.fields.message.value,
+			agreement: formState.fields.agreement.value,
+		};
+
+		validation.validate(validationFields, { abortEarly: false })
 			.then(() => {
 				dispatch(setIsSubmitting(true));
 				setTimeout(() => {
@@ -59,8 +68,7 @@ function FeedBackForm() {
 			});
 	};
 
-	return ( // отлдельный компонент форминпут и сообщение ошибки для сокращения кода
-		// + не попы а фиксированную область увеличить расстояние пежду окнами ввода
+	return (
 		<div className={styles.header}>
 			<div className={styles.mainForm}>
 				<img src={FORMICON} alt="Сына тупина" className={styles.formIcon} />
@@ -68,81 +76,46 @@ function FeedBackForm() {
 			</div>
 			<p className={styles.formSubtitle}>Отправьте нам сообщение и мы ответим в ближайшее время</p>
 			<form className={styles.form} onSubmit={handleSubmit} noValidate>
-				<input
-					type="text"
-					placeholder="Ваше имя*"
+				<FormInput
 					name={FIELDS.name}
-					onChange={handleChange}
-					onBlur={handleBlur}
-					onFocus={handleFocus}
-					value={formState.fields.name.value}
-					className={styles.inputField}
+					placeholder="Введите Имя"
+					handleChange={handleChange}
+					handleBlur={handleBlur}
+					handleFocus={handleFocus}
+					errorMessage="Имя должно содержать от 2 до 128 символов"
 				/>
-				{!formState.fields.name.isValid && (
-					<div className={styles.error}>Имя должно содержать от 2 до 128 символов</div>
-				)}
-
-				<input
-					type="tel"
-					placeholder="Телефон"
+				<FormInput
 					name={FIELDS.phone}
-					onChange={handleChange}
-					onBlur={handleBlur}
-					onFocus={handleFocus}
-					value={formState.fields.phone.value}
-					className={styles.inputField}
+					placeholder="Номер телефона"
+					handleChange={handleChange}
+					handleBlur={handleBlur}
+					handleFocus={handleFocus}
+					errorMessage="Неправильный формат номера телефона"
 				/>
-				{!formState.fields.phone.isValid && (
-					<div className={styles.error}>Неправильный формат номера телефона</div>
-				)}
-
-				<input
-					type="email"
-					placeholder="Электронная почта*"
+				<FormInput
 					name={FIELDS.email}
-					onChange={handleChange}
-					onBlur={handleBlur}
-					onFocus={handleFocus}
-					value={formState.fields.email.value}
-					className={styles.inputField}
+					placeholder="Введите Ваш email"
+					handleChange={handleChange}
+					handleBlur={handleBlur}
+					handleFocus={handleFocus}
+					errorMessage="Неправильный формат электронной почты"
 				/>
-				{!formState.fields.email.isValid && (
-					<div className={styles.error}>Неправильный формат электронной почты</div>
-				)}
-
-				<textarea
-					placeholder="Пожалуйста, введите текст сообщения*"
+				<FormInput
 					name={FIELDS.message}
-					rows="4"
-					onChange={handleChange}
-					onBlur={handleBlur}
-					onFocus={handleFocus}
-					value={formState.fields.message.value}
-					className={`${styles.inputField} ${styles.inputFieldText}`}
+					placeholder="ВПожалуйста, введите текст сообщения"
+					tagType="textarea"
+					handleChange={handleChange}
+					handleBlur={handleBlur}
+					handleFocus={handleFocus}
+					errorMessage="Текст сообщения должен содержать от 5 до 1024 символов"
 				/>
-				{formState.fields.message.isValid || (
-					<div className={styles.error}>Текст сообщения должен содержать от 5 до 1024 символов</div>
-				)}
 
-				<label className={styles.checkboxLabel}>
-					<input
-						type="checkbox"
-						required
-						className={styles.checkboxInput}
-						name={FIELDS.agreement}
-						onChange={onChange}
-						checked={formState.fields.agreement.value}
-					/>
-					Я согласен(-на) с
-					{' '}
-					<span className={styles.checkboxText}>правилами</span>
-					{' '}
-					по обработке моих персональных данных
-				</label>
-				{formState.fields.agreement.isValid || (
-					<div className={styles.error}>Вы должны согласиться с правилами</div>
-				)}
-
+				<FormCheckBox
+					name={FIELDS.agreement}
+					onChange={onChange}
+					handleFocus={handleFocus}
+					errorMessage="Вы должны согласиться с правилами"
+				/>
 				<div>
 					<button type="submit" className={styles.sendButton}>
 						<img src={BUTTONICON} alt="Отправить" className={styles.sendIcon} />
