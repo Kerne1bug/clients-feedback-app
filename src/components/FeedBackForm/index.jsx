@@ -71,7 +71,7 @@ function FeedBackForm() {
 	return (
 		<div className={styles.header}>
 			<div className={styles.mainForm}>
-				<img src={FORMICON} alt="Сына тупина" className={styles.formIcon} />
+				<img src={FORMICON} alt="Лев Николаевич" className={styles.formIcon} />
 				<h2 className={styles.formTitle}>Свяжитесь с нами</h2>
 			</div>
 			<p className={styles.formSubtitle}>Отправьте нам сообщение и мы ответим в ближайшее время</p>
@@ -102,13 +102,15 @@ function FeedBackForm() {
 				/>
 				<FormInput
 					name={FIELDS.message}
-					placeholder="ВПожалуйста, введите текст сообщения"
+					placeholder="Пожалуйста, введите текст сообщения"
 					tagType="textarea"
 					handleChange={handleChange}
 					handleBlur={handleBlur}
 					handleFocus={handleFocus}
 					errorMessage="Текст сообщения должен содержать от 5 до 1024 символов"
 				/>
+
+				<p className={styles.requiredFields}>*обязательные поля</p>
 
 				<FormCheckBox
 					name={FIELDS.agreement}

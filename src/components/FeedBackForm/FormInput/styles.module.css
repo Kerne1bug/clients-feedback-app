@@ -2,6 +2,7 @@
     color: red;
     font-size: 14px;
     margin-top: 5px;
+
 }
 
 .inputField {
@@ -28,5 +29,10 @@
     height: 130px;
     padding-top: 11.5px;
     border-radius: 20px;
-    margin-bottom: 6px;
+    margin-bottom: 20px;
 }
+
+.errorInput {
+    border: 1px solid red;
+}
+
