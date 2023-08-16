@@ -23,13 +23,13 @@ function FormInput({
 				value={formState.fields[name].value}
 				className={tagClassName}
 			/>
-			{
-				!isValid && (
-					<div className={styles.error}>
-						{errorMessage}
-					</div>
-				)
-			}
+			{ isValid ? (
+				<div className={styles.error} />
+			) : (
+				<div className={styles.errorActive}>
+					{errorMessage}
+				</div>
+			)}
 		</div>
 	);
 }

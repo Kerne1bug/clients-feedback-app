@@ -110,7 +110,7 @@ function FeedBackForm() {
 					errorMessage="Текст сообщения должен содержать от 5 до 1024 символов"
 				/>
 
-				<p className={styles.requiredFields}>*обязательные поля</p>
+				<p className={styles.formNote}>*обязательные поля</p>
 
 				<FormCheckBox
 					name={FIELDS.agreement}
