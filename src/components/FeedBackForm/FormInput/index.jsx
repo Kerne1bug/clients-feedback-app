@@ -6,7 +6,9 @@ function FormInput({
 }) {
 	const formState = useSelector((state) => state.form);
 	const Tag = tagType === 'textarea' ? 'textarea' : 'input';
-	const classNameText = tagType === 'textarea' ? `${styles.inputField} ${styles.inputFieldText}` : styles.inputField;
+	const { isValid } = formState.fields[name];
+	const inputClassName = tagType === 'textarea' ? `${styles.inputField} ${styles.inputFieldText}` : styles.inputField;
+	const tagClassName = isValid ? inputClassName : `${inputClassName} ${styles.errorInput}`;
 
 	return (
 		<div>
@@ -19,15 +21,15 @@ function FormInput({
 				onBlur={handleBlur}
 				onFocus={handleFocus}
 				value={formState.fields[name].value}
-				className={classNameText}
+				className={tagClassName}
 			/>
-			{
-				!formState.fields[name].isValid && (
-					<div className={styles.error}>
-						{errorMessage}
-					</div>
-				)
-			}
+			{ isValid ? (
+				<div className={styles.error} />
+			) : (
+				<div className={styles.errorActive}>
+					{errorMessage}
+				</div>
+			)}
 		</div>
 	);
 }

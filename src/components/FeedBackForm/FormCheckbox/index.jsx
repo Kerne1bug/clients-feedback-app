@@ -23,8 +23,10 @@ function FormCheckBox({
 				{' '}
 				по обработке моих персональных данных
 			</label>
-			{!formState.fields.agreement.isValid && (
-				<div className={styles.error}>
+			{ (formState.fields.agreement.isValid) ? (
+				<div className={styles.error} />
+			) : (
+				<div className={styles.errorActive}>
 					{errorMessage}
 				</div>
 			)}

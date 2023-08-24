@@ -21,6 +21,7 @@
     flex-direction: column;
     align-items: center;
     margin-top: 14px;
+    
 }
 
 .formIcon {
@@ -49,34 +50,6 @@
     letter-spacing: -0.5px;
 }
 
-
-.inputField {
-    color: var(--gray-3, #B7B8C5);
-    font-family: Noto Sans;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    width: 526px;
-    height: 42px;
-    flex-shrink: 0;
-    border-radius: 40px;
-    border: 1px solid var(--blue, #74CCD8);
-    background: var(--white, #FFF);
-    padding-left: 20px;
-    box-sizing: border-box;
-    color: black;
-    margin-bottom: 12px;
-}
-
-.inputFieldText {
-    resize: none;
-    height: 130px;
-    padding-top: 11.5px;
-    border-radius: 20px;
-    margin-bottom: 6px;
-}
-
 .formNote {
     color: #427781;
     font-family: Noto Sans;
@@ -86,35 +59,6 @@
     line-height: 155.023%;
     margin: 0;
 
-}
-
-.checkboxLabel {
-    color: var(--dark, #090F24);
-    font-family: Noto Sans;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 155.023%;
-    margin: 0;
-    display: inline-block;
-    letter-spacing: -0.5px;
-}
-
-.checkboxInput {
-    width: 14px;
-    height: 14px;
-    flex-shrink: 0;
-    margin: 0 9px 0 0;
-
-}
-
-.checkboxText {
-    color: #090F24;
-    font-family: Noto Sans;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 155.023%;
 }
 
 .sendButton {
@@ -145,17 +89,3 @@
     margin: 0;
     letter-spacing: -0.5px;
 }
-
-.errorText {
-    color: red;
-    font-size: 14px;
-    margin-top: 5px;
-}
-
-.error {
-    color: red;
-    font-size: 14px;
-    margin-top: 5px;
-}
-
-/* привести в порядок внешний вид ошибки */

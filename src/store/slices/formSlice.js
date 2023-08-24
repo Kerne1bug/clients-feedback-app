@@ -17,7 +17,6 @@ const formSlice = createSlice({
 	reducers: {
 		setFieldValue: (state, action) => {
 			const { fieldName, value } = action.payload;
-			// console.log(' хуета ', value);
 			state.fields[fieldName].value = value;
 		},
 		setFieldValidation: (state, action) => {

@@ -6,6 +6,8 @@
 
 .backImg {
     position: relative;
+    width: 50%; /* 50% от родительского контейнера */
+    height: auto; /* Автоматически подстраивает высоту */
 }
 
 .formIcon {

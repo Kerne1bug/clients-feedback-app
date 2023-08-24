@@ -33,8 +33,16 @@
     margin-top: 5px;
 }
 
+
 .error {
+    height: 20px;
+}
+
+.errorActive {
+    display: flex;
     color: red;
-    font-size: 14px;
-    margin-top: 5px;
+    font-size: 12px;
+    height: 20px;
+    padding-left: 20px;
+    letter-spacing: -0.5px;
 }
