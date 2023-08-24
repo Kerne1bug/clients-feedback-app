@@ -1,34 +1,40 @@
 import { useSelector } from 'react-redux';
-import styles from './styles.module.css';
+import { styled } from 'styled-components';
+import {
+	InputField,
+	Error,
+	ErrorActive,
+} from './styled';
 
 function FormInput({
 	name, handleChange, handleFocus, handleBlur, tagType, placeholder, errorMessage,
 }) {
 	const formState = useSelector((state) => state.form);
-	const Tag = tagType === 'textarea' ? 'textarea' : 'input';
 	const { isValid } = formState.fields[name];
-	const inputClassName = tagType === 'textarea' ? `${styles.inputField} ${styles.inputFieldText}` : styles.inputField;
-	const tagClassName = isValid ? inputClassName : `${inputClassName} ${styles.errorInput}`;
+	const isTextarea = tagType === 'textarea';
+	const isError = !isValid;
 
 	return (
 		<div>
-			<Tag
-				type="text"
-				rows="4"
+			<InputField
+				type={isTextarea ? 'textarea' : 'text'}
+				rows={isTextarea ? '4' : undefined}
+				additionalClass={styled.InputFieldText}
 				placeholder={`${placeholder}*`}
 				name={name}
 				onChange={handleChange}
 				onBlur={handleBlur}
 				onFocus={handleFocus}
 				value={formState.fields[name].value}
-				className={tagClassName}
+				isTextarea={isTextarea}
+				isError={isError}
 			/>
-			{ isValid ? (
-				<div className={styles.error} />
+			{isValid ? (
+				<Error />
 			) : (
-				<div className={styles.errorActive}>
+				<ErrorActive>
 					{errorMessage}
-				</div>
+				</ErrorActive>
 			)}
 		</div>
 	);

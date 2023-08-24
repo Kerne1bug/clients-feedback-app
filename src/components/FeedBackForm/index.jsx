@@ -1,5 +1,5 @@
-//* eslint-disable*/
 import { useDispatch, useSelector } from 'react-redux';
+import { styled } from 'styled-components';
 import {
 	setFieldValidation, setIsSubmitting, setFieldValue, setFieldsValidation,
 } from '../../store/slices/formSlice';
@@ -7,11 +7,22 @@ import { validateField } from './utils';
 import { FIELDS } from './constants';
 
 import validation from '../../store/slices/validation';
-import styles from './styles.module.css';
-import FORMICON from './assets/Group.svg';
-import BUTTONICON from './assets/send.svg';
+import {
+	Header,
+	MainForm,
+	FormContainer,
+	FormIcon,
+	FormTitle,
+	FormSubtitle,
+	FormNote,
+	SendButton,
+	SendIcon,
+	SendText,
+} from './styled';
 import FormInput from './FormInput';
 import FormCheckBox from './FormCheckbox';
+import FORMICON from './assets/Group.svg';
+import BUTTONICON from './assets/send.svg';
 
 function FeedBackForm() {
 	const dispatch = useDispatch();
@@ -69,13 +80,13 @@ function FeedBackForm() {
 	};
 
 	return (
-		<div className={styles.header}>
-			<div className={styles.mainForm}>
-				<img src={FORMICON} alt="Лев Николаевич" className={styles.formIcon} />
-				<h2 className={styles.formTitle}>Свяжитесь с нами</h2>
-			</div>
-			<p className={styles.formSubtitle}>Отправьте нам сообщение и мы ответим в ближайшее время</p>
-			<form className={styles.form} onSubmit={handleSubmit} noValidate>
+		<Header>
+			<MainForm>
+				<FormIcon src={FORMICON} alt="Лев Николаевич" />
+				<FormTitle>Свяжитесь с нами</FormTitle>
+			</MainForm>
+			<FormSubtitle>Отправьте нам сообщение и мы ответим в ближайшее время</FormSubtitle>
+			<FormContainer onSubmit={handleSubmit} noValidate>
 				<FormInput
 					name={FIELDS.name}
 					placeholder="Введите Имя"
@@ -108,9 +119,11 @@ function FeedBackForm() {
 					handleBlur={handleBlur}
 					handleFocus={handleFocus}
 					errorMessage="Текст сообщения должен содержать от 5 до 1024 символов"
+					isTextarea // Передача свойства isTextarea для textarea
+					additionalClass={styled.inputFieldText}
 				/>
 
-				<p className={styles.formNote}>*обязательные поля</p>
+				<FormNote>*обязательные поля</FormNote>
 
 				<FormCheckBox
 					name={FIELDS.agreement}
@@ -119,13 +132,13 @@ function FeedBackForm() {
 					errorMessage="Вы должны согласиться с правилами"
 				/>
 				<div>
-					<button type="submit" className={styles.sendButton}>
-						<img src={BUTTONICON} alt="Отправить" className={styles.sendIcon} />
-						<p className={styles.sendText}>Отправить сообщение</p>
-					</button>
+					<SendButton type="submit">
+						<SendIcon src={BUTTONICON} alt="Отправить" />
+						<SendText>Отправить сообщение</SendText>
+					</SendButton>
 				</div>
-			</form>
-		</div>
+			</FormContainer>
+		</Header>
 	);
 }
 
