@@ -12,6 +12,7 @@
     "react-dom": "^18.2.0",
     "react-redux": "^8.1.2",
     "react-scripts": "5.0.1",
+    "styled-components": "^6.0.7",
     "web-vitals": "^2.1.4",
     "yup": "^1.2.0"
   },
@@ -54,8 +55,16 @@
       "react/prop-types": "off",
       "import/prefer-default-export": "off",
       "jsx-a11y/label-has-associated-control": "off",
-      "no-param-reassign":  ["error", { "props": false }]
+      "no-param-reassign": [
+        "error",
+        {
+          "props": false
+        }
+      ]
     }
+  },
+  "resolutions": {
+      "styled-components": "^5"
   },
   "browserslist": {
     "production": [
