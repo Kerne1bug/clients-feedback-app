@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
-import { styled } from 'styled-components';
 import {
 	InputField,
+	TextareaField,
 	Error,
 	ErrorActive,
 } from './styled';
@@ -13,13 +13,13 @@ function FormInput({
 	const { isValid } = formState.fields[name];
 	const isTextarea = tagType === 'textarea';
 	const isError = !isValid;
+	const Tag = isTextarea ? TextareaField : InputField;
 
 	return (
 		<div>
-			<InputField
+			<Tag
 				type={isTextarea ? 'textarea' : 'text'}
 				rows={isTextarea ? '4' : undefined}
-				additionalClass={styled.InputFieldText}
 				placeholder={`${placeholder}*`}
 				name={name}
 				onChange={handleChange}

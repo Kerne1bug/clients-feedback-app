@@ -3,7 +3,6 @@ import {
 	CheckboxLabel,
 	CheckboxInput,
 	CheckboxText,
-	// ErrorText,
 	Error,
 	ErrorActive,
 } from './Styled';

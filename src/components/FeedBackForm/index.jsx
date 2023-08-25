@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { styled } from 'styled-components';
 import {
 	setFieldValidation, setIsSubmitting, setFieldValue, setFieldsValidation,
 } from '../../store/slices/formSlice';
@@ -119,8 +118,6 @@ function FeedBackForm() {
 					handleBlur={handleBlur}
 					handleFocus={handleFocus}
 					errorMessage="Текст сообщения должен содержать от 5 до 1024 символов"
-					isTextarea // Передача свойства isTextarea для textarea
-					additionalClass={styled.inputFieldText}
 				/>
 
 				<FormNote>*обязательные поля</FormNote>
