@@ -1,5 +1,11 @@
 import { useSelector } from 'react-redux';
-import styles from './styles.module.css';
+import {
+	CheckboxLabel,
+	CheckboxInput,
+	CheckboxText,
+	Error,
+	ErrorActive,
+} from './Styled';
 
 function FormCheckBox({
 	name, onChange, handleFocus, errorMessage,
@@ -8,27 +14,26 @@ function FormCheckBox({
 
 	return (
 		<div>
-			<label className={styles.checkboxLabel}>
-				<input
+			<CheckboxLabel>
+				<CheckboxInput
 					type="checkbox"
 					name={name}
 					onChange={onChange}
 					onFocus={handleFocus}
 					checked={formState.fields.agreement.value}
-					className={styles.checkboxInput}
 				/>
 				Я согласен(-на) с
 				{' '}
-				<span className={styles.checkboxText}>правилами</span>
+				<CheckboxText>правилами</CheckboxText>
 				{' '}
 				по обработке моих персональных данных
-			</label>
-			{ (formState.fields.agreement.isValid) ? (
-				<div className={styles.error} />
+			</CheckboxLabel>
+			{formState.fields.agreement.isValid ? (
+				<Error />
 			) : (
-				<div className={styles.errorActive}>
+				<ErrorActive>
 					{errorMessage}
-				</div>
+				</ErrorActive>
 			)}
 		</div>
 	);

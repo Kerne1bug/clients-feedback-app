@@ -1,16 +1,21 @@
-import styles from './styles.module.css';
 import FeedBackForm from '../FeedBackForm';
 import Message from './assets/message.svg';
 import Bckgrnd from './assets/bckground.png';
+import {
+	HeaderContainer,
+	BackgroundImage,
+	FormIcon,
+	SemiCircle,
+} from './styled';
 
 function Header() {
 	return (
-		<div className={styles.header}>
-			<img className={styles.backImg} src={Bckgrnd} alt="Сына-корзина" />
-			<img className={styles.formIcon} src={Message} alt="Вам пришло новое сообщение" />
-			<div className={styles.semiCircle} />
+		<HeaderContainer>
+			<BackgroundImage src={Bckgrnd} alt="Сына-корзина" />
+			<FormIcon src={Message} alt="Вам пришло новое сообщение" />
+			<SemiCircle />
 			<FeedBackForm />
-		</div>
+		</HeaderContainer>
 	);
 }
 
